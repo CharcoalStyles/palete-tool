@@ -19,16 +19,15 @@ export default function Home() {
 
   return (
     <main
-      className={`bg-slate-900 flex min-h-screen flex-col justify-between p-8 ${josefin.className}`}>
-      <div className="flex flex-row justify-between border-b-2 border-violet-200 mb-4">
-        <h1 className="text-5xl font-bold text-violet-200">Palette Tool</h1>
+      className={`bg-slate-900 flex flex-row gap-8 h-screen w-screen p-8 ${josefin.className}`}>
+      <div className="flex-grow">
+        <div className="flex flex-row justify-between border-b-2 border-violet-200 mb-4">
+          <h1 className="text-5xl font-bold text-violet-200">Palette Tool</h1>
+        </div>
       </div>
-      <div className="flex-grow flex flex-row">
-        <div className="flex flex-col gap-">
-          <h2 className="text-2xl font-bold text-violet-200">
-            Current Palette
-          </h2>
-          <div className="flex flex-col gap-1">
+      <div className="flex flex-row overflow-auto">
+        <div className="max-h-full min-w-40 my-10">
+          <div className="flex-grow flex flex-col flex-wrap gap-1">
             <PaletteAddItem
               onClick={() => {
                 const newColor = chroma.random();
