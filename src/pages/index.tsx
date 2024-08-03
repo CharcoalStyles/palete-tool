@@ -2,7 +2,7 @@ import { PaletteAddItem } from "@/components/PaletteAddItem";
 import { PaletteItem } from "@/components/PaletteItem";
 import chroma, { Color } from "chroma-js";
 import { Josefin_Sans } from "next/font/google";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 const josefin = Josefin_Sans({ subsets: ["latin"] });
 
@@ -19,7 +19,8 @@ export default function Home() {
 
   return (
     <main
-      className={`bg-slate-900 flex flex-row gap-8 h-screen w-screen p-8 ${josefin.className}`}>
+      className={`bg-slate-900 flex flex-row gap-8 h-screen w-screen p-8 ${josefin.className}`}
+    >
       <div className="flex-grow">
         <div className="flex flex-row justify-between border-b-2 border-violet-200 mb-4">
           <h1 className="text-5xl font-bold text-violet-200">Palette Tool</h1>
@@ -34,23 +35,26 @@ export default function Home() {
                 setColors([newColor, ...colors]);
               }}
             />
-            {colors.map((color, index) => (
-              <>
-                <PaletteItem key={color.hex()} color={color} />
-                {index !== colors.length - 1 && (
-                  <PaletteAddItem
-                    onClick={() => {
-                      const newColor = chroma.mix(color, colors[index + 1]);
-                      setColors([
-                        ...colors.slice(0, index + 1),
-                        newColor,
-                        ...colors.slice(index + 1),
-                      ]);
-                    }}
-                  />
-                )}
-              </>
-            ))}
+            {colors.map((color, index) => {
+              console.log(color.hex());
+              return (
+                <Fragment key={color.hex()}>
+                  <PaletteItem color={color} />
+                  {index !== colors.length - 1 && (
+                    <PaletteAddItem
+                      onClick={() => {
+                        const newColor = chroma.mix(color, colors[index + 1]);
+                        setColors([
+                          ...colors.slice(0, index + 1),
+                          newColor,
+                          ...colors.slice(index + 1),
+                        ]);
+                      }}
+                    />
+                  )}
+                </Fragment>
+              );
+            })}
             <PaletteAddItem
               onClick={() => {
                 const newColor = chroma.random();
