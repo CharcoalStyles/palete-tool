@@ -1,14 +1,40 @@
+import Edit from "@/icons/Edit";
+import Trash from "@/icons/Trash";
 import chroma, { Color } from "chroma-js";
+import { useState } from "react";
 
-export const PaletteItem = ({ color }: { color: Color }) => {
-  const textColor = chroma.contrast(color, 'white') < 4.5 ? chroma('black') : chroma('white');
+type PaletteItemProps = {
+  color: Color;
+  onDelete?: () => void;
+};
+
+export const PaletteItem = ({ color, onDelete }: PaletteItemProps) => {
+  const textColor =
+    chroma.contrast(color, "white") < 4.5 ? chroma("black") : chroma("white");
+
+  const [hover, setHover] = useState(false);
 
   return (
+    <div
+      className="p-1 rounded-md flex flex-row"
+      style={{ backgroundColor: color.hex(), color: textColor.hex() }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}>
       <div
-        className="p-1 rounded-md text-center"
-        style={{ backgroundColor: color.hex() }}>
-        <p className="text-lg font-bold"
-        style={{ color: textColor.hex() }}>{ color.hex().toUpperCase() }</p>
+        className={`${
+          hover ? "opacity-100" : "opacity-0"
+        } transition-opacity hover:cursor-pointer`}>
+        <Edit />
       </div>
+      <div className="flex-grow text-center">
+        <p className="text-lg font-bold">{color.hex().toUpperCase()}</p>
+      </div>
+      <div
+        className={`${
+          hover ? "opacity-100" : "opacity-0"
+        } transition-opacity hover:cursor-pointer`}>
+        <Trash onClick={() => onDelete?.()} />
+      </div>
+    </div>
   );
 };
