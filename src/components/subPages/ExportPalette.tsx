@@ -1,25 +1,12 @@
 import { Color } from "chroma-js";
-import { useEffect, useState } from "react";
 import { Image } from "image-js";
+import { Button } from "../Button";
 
 type ExportPaletteProps = {
   palette: Array<Color>;
 };
 
 export const ExportPalette = ({ palette }: ExportPaletteProps) => {
-  const [image, setImage] = useState<string>("");
-
-  useEffect(() => {
-    if (palette.length === 0) return;
-    const img = new Image(palette.length, 1);
-
-    palette.forEach((color, i) => {
-      img.setPixel(i, color.rgb());
-    });
-
-    setImage(img.toDataURL());
-  }, [palette]);
-
   if (palette.length === 0)
     return (
       <div>
@@ -39,9 +26,51 @@ export const ExportPalette = ({ palette }: ExportPaletteProps) => {
         />
       </div>
       <div>
-        <p className="text-lg text-sky-200">Image</p>
-        <img src={image} alt="Palette image" className="h-4" />
+        <p className="text-lg text-sky-200">PNG Image</p>
+        <div className="flex flex-row gap-2">
+          <Button
+            onClick={() => {
+              const link = document.createElement("a");
+              link.download = "palette1x.png";
+              link.href = generateImage(palette, 1);
+              link.click();
+            }}>
+            1x
+          </Button>
+          <Button
+            onClick={() => {
+              const link = document.createElement("a");
+              link.download = "palette1x.png";
+              link.href = generateImage(palette, 8);
+              link.click();
+            }}>
+            8x
+          </Button>
+          <Button
+            onClick={() => {
+              const link = document.createElement("a");
+              link.download = "palette1x.png";
+              link.href = generateImage(palette, 32);
+              link.click();
+            }}>
+            32x
+          </Button>
+        </div>
       </div>
     </div>
   );
+};
+
+const generateImage = (palette: Array<Color>, size: number) => {
+  const img = new Image(palette.length * size, size);
+
+  palette.forEach((color, i) => {
+    for (let x = 0; x < size; x++) {
+      for (let y = 0; y < size; y++) {
+        img.setPixelXY(i * size + x, y, color.rgb());
+      }
+    }
+  });
+
+  return img.toDataURL();
 };
