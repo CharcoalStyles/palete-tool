@@ -1,15 +1,14 @@
 import { Color } from "chroma-js";
 import { Image } from "image-js";
 import { Button } from "../Button";
+import { SubPageProps } from "./props";
 
-type ExportPaletteProps = {
-  palette: Array<Color>;
-};
+export const ExportPalette = ({ currentPalette }: SubPageProps) => {
+  if (!currentPalette) throw new Error("currentPalette is required");
 
-export const ExportPalette = ({ palette }: ExportPaletteProps) => {
-  if (palette.length === 0)
+  if (currentPalette.length === 0)
     return (
-      <div>
+      <div className="flex flex-col gap-4 mx-4">
         <p className="text-lg text-sky-200">No colors added yet</p>
       </div>
     );
@@ -22,7 +21,7 @@ export const ExportPalette = ({ palette }: ExportPaletteProps) => {
         </p>
         <textarea
           className="w-full h-32 p-2 bg-stone-200 text-stone-900"
-          value={palette.map((color) => color.hex()).join(", ")}
+          value={currentPalette.map((color) => color.hex()).join(", ")}
         />
       </div>
       <div>
@@ -32,27 +31,30 @@ export const ExportPalette = ({ palette }: ExportPaletteProps) => {
             onClick={() => {
               const link = document.createElement("a");
               link.download = "palette1x.png";
-              link.href = generateImage(palette, 1);
+              link.href = generateImage(currentPalette, 1);
               link.click();
-            }}>
+            }}
+          >
             1x
           </Button>
           <Button
             onClick={() => {
               const link = document.createElement("a");
               link.download = "palette1x.png";
-              link.href = generateImage(palette, 8);
+              link.href = generateImage(currentPalette, 8);
               link.click();
-            }}>
+            }}
+          >
             8x
           </Button>
           <Button
             onClick={() => {
               const link = document.createElement("a");
               link.download = "palette1x.png";
-              link.href = generateImage(palette, 32);
+              link.href = generateImage(currentPalette, 32);
               link.click();
-            }}>
+            }}
+          >
             32x
           </Button>
         </div>
