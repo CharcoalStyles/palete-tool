@@ -143,9 +143,10 @@ export const NewColor = ({
           </div>
         </div>
       </MenuSection>
+      {currentColor !== undefined && nextColor !== undefined && (
       <MenuSection title="Add interpolated colors">
-        {/* <Interp /> */}
-      </MenuSection>
+        <Interp startColor={currentColor} endColor={nextColor} onSubmit={onInsertColors} onChange={onTempInsertColors} />
+      </MenuSection>)}
     </div>
   );
 };
