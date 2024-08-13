@@ -3,6 +3,7 @@ import { Button } from "../Button";
 import { useState } from "react";
 import chroma from "chroma-js";
 import { SubPageProps } from "./props";
+import { MenuSection } from "../ui/MenuSection";
 
 
 export const NewPalette = ({ onNewPalette }: SubPageProps) => {
@@ -12,8 +13,7 @@ export const NewPalette = ({ onNewPalette }: SubPageProps) => {
 
   return (
     <div className="flex flex-col gap-4 mx-4">
-      <div>
-        <p className="text-lg text-sky-200">Generate a random set of colors</p>
+      <MenuSection title="Generate a random set of colors">]
         <div className="flex flex-row gap-4">
           <div>
             <input
@@ -34,7 +34,7 @@ export const NewPalette = ({ onNewPalette }: SubPageProps) => {
             Generate
           </Button>
         </div>
-      </div>
+      </MenuSection>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { Color } from "chroma-js";
 import { Image } from "image-js";
 import { Button } from "../Button";
 import { SubPageProps } from "./props";
+import { MenuSection } from "../ui/MenuSection";
 
 export const ExportPalette = ({ currentPalette }: SubPageProps) => {
   if (!currentPalette) throw new Error("currentPalette is required");
@@ -15,17 +16,13 @@ export const ExportPalette = ({ currentPalette }: SubPageProps) => {
 
   return (
     <div className="flex flex-col gap-4 mx-4">
-      <div>
-        <p className="text-lg text-sky-200">
-          Comma separated list of hex colors
-        </p>
+      <MenuSection title="Comma separated list of hex colors">
         <textarea
           className="w-full h-32 p-2 bg-stone-200 text-stone-900"
           value={currentPalette.map((color) => color.hex()).join(", ")}
         />
-      </div>
-      <div>
-        <p className="text-lg text-sky-200">PNG Image</p>
+      </MenuSection>
+      <MenuSection title="PNG Image">
         <div className="flex flex-row gap-2">
           <Button
             onClick={() => {
@@ -58,7 +55,7 @@ export const ExportPalette = ({ currentPalette }: SubPageProps) => {
             32x
           </Button>
         </div>
-      </div>
+      </MenuSection>
     </div>
   );
 };

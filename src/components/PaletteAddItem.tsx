@@ -14,11 +14,11 @@ export const PaletteAddItem = ({
       <>
         {tempColors.map((col) => (
           <div
+            key={col.hex()}
             className="p-1 rounded-md h-3 border border-white border-dashed"
             style={{
               background: col.hex(),
-            }}
-          ></div>
+            }}></div>
         ))}
       </>
     );
@@ -27,8 +27,7 @@ export const PaletteAddItem = ({
   return (
     <div
       className="p-1 rounded-md text-center h-1 hover:h-4 hover:border border-slate-400 hover:border-white border-dashed transition-all hover:cursor-pointer"
-      onClick={onClick}
-    >
+      onClick={onClick}>
       <p className="text-stone-200 relative bottom-3 opacity-100 hover:opacity-0 transition-opacity">
         +
       </p>

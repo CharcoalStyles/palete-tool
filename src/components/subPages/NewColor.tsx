@@ -3,6 +3,8 @@ import { SubPageProps } from "./props";
 import { useEffect, useState } from "react";
 import chroma from "chroma-js";
 import { Slider } from "../ui/slider";
+import { MenuSection } from "../ui/MenuSection";
+import { Interp } from "../ui/selectors/Interp"
 
 export const NewColor = ({
   currentPalette,
@@ -18,6 +20,18 @@ export const NewColor = ({
 
   const [newColor, setNewColor] = useState(chroma.random());
   const [textColor, setTextColor] = useState(chroma("black"));
+
+  const currentColor =
+    selectedColorIndex === -1 ||
+    selectedColorIndex === currentPalette.length - 1
+      ? undefined : currentPalette[selectedColorIndex];
+
+  const nextColor =
+    currentColor === undefined
+      ? undefined
+      : currentPalette[selectedColorIndex + 1];
+
+  console.log(currentColor, nextColor);
 
   useEffect(() => {
     if (
@@ -49,18 +63,17 @@ export const NewColor = ({
 
   return (
     <div className="flex flex-col gap-4 mx-4">
-      <div className="flex flex-col">
-        <p className="text-lg text-sky-200">Add a new single color</p>
+      <MenuSection title="Add a new single color">
         <div className="flex flex-row gap-2">
           <div
             className="px-4 py-2  w-64"
-            style={{ background: newColor.hex() }}
-          >
+            style={{ background: newColor.hex() }}>
             <p className="text-sm" style={{ color: textColor.hex() }}>
               RGB: {newColor.rgb().join(", ")}
             </p>
             <p className="text-sm" style={{ color: textColor.hex() }}>
-              HSV: {newColor
+              HSV:{" "}
+              {newColor
                 .hsv()
                 .map((val, i) => {
                   if (i === 0) return val.toFixed(1);
@@ -77,7 +90,7 @@ export const NewColor = ({
               if (i === 2) label = "B";
 
               return (
-                <div className="flex flex-row gap-1">
+                <div key={i} className="flex flex-row gap-1">
                   <p className="text-sky-200 w-3 mt-2">{label}</p>
                   <input
                     type="number"
@@ -103,19 +116,25 @@ export const NewColor = ({
               if (i === 2) label = "L";
 
               return (
-                <div className="flex flex-row gap-1">
+                <div key={i} className="flex flex-row gap-1">
                   <p className="text-sky-200 w-3 mt-2">{label}</p>
                   <input
                     type="number"
                     value={c}
                     className="w-24 h-8 p-2"
                     min={0}
-                    max={i === 1 ? 360 : 1}
-                    step={i === 1 ? 1 : 0.001}
+                    max={i === 0 ? 360 : 1}
+                    step={i === 0 ? 1 : 0.001}
                     onChange={(e) => {
                       const newColorArr = newColor.hsv();
                       newColorArr[i] = parseFloat(e.target.value);
-                      setNewColor(chroma.hsv(newColorArr[0], newColorArr[1], newColorArr[2]));
+                      setNewColor(
+                        chroma.hsv(
+                          newColorArr[0],
+                          newColorArr[1],
+                          newColorArr[2]
+                        )
+                      );
                     }}
                   />
                 </div>
@@ -123,7 +142,10 @@ export const NewColor = ({
             })}
           </div>
         </div>
-      </div>
+      </MenuSection>
+      <MenuSection title="Add interpolated colors">
+        {/* <Interp /> */}
+      </MenuSection>
     </div>
   );
 };
