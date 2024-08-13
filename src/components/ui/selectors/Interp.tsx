@@ -42,7 +42,7 @@ export const Interp = ({ startColor, endColor, onChange, onSubmit }: InterpProps
           <div key={i} className={`${firstOrLast ? "w-4" : "flex-grow"}`}>
             <div className={`h-16 rounded-md ${firstOrLast ? "w-4" : "w-full"}`}>
               <div
-                className="w-full h-full rounded-md text-center center flex flex-col items-center justify-center"
+                className="w-full h-full rounded-md text-center flex flex-col items-center justify-center"
                 style={{ background: color.hex(), color: textColor.hex() }}
               >
               {firstOrLast ? '' : color.hex()}</div>
